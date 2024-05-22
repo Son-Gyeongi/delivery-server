@@ -22,13 +22,25 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-web'
-    compileOnly 'org.projectlombok:lombok'
-    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    // databases
     runtimeOnly 'com.h2database:h2'
     runtimeOnly 'com.mysql:mysql-connector-j'
-    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+
+    // Jpa
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+    // web
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    // lombok
+    compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
+
+    // 개발자의 작업을 돕고 생산성을 향상시키기 위한 유용한 도구
+    // // 설정 파일(application.properties나 application.yml)에 대해 자동 완성 기능과 문서화를 지원하는 도구
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+
+    // test
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
