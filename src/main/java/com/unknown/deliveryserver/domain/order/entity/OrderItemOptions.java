@@ -1,4 +1,4 @@
-package com.unknown.deliveryserver.order.entity;
+package com.unknown.deliveryserver.domain.order.entity;
 
 import com.unknown.deliveryserver.global.common.entity.BaseEntity;
 import jakarta.persistence.Column;

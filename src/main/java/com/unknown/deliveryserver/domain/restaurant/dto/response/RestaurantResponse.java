@@ -1,6 +1,6 @@
-package com.unknown.deliveryserver.restaurant.dto.response;
+package com.unknown.deliveryserver.domain.restaurant.dto.response;
 
-import com.unknown.deliveryserver.restaurant.entity.Restaurant;
+import com.unknown.deliveryserver.domain.restaurant.entity.Restaurant;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 

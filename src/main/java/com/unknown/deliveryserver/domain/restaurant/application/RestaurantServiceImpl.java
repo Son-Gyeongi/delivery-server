@@ -1,9 +1,9 @@
-package com.unknown.deliveryserver.restaurant.application;
+package com.unknown.deliveryserver.domain.restaurant.application;
 
-import com.unknown.deliveryserver.restaurant.dao.RestaurantRepository;
-import com.unknown.deliveryserver.restaurant.dto.request.RestaurantRequest;
-import com.unknown.deliveryserver.restaurant.dto.response.RestaurantResponse;
-import com.unknown.deliveryserver.restaurant.entity.Restaurant;
+import com.unknown.deliveryserver.domain.restaurant.dao.RestaurantRepository;
+import com.unknown.deliveryserver.domain.restaurant.dto.response.RestaurantResponse;
+import com.unknown.deliveryserver.domain.restaurant.dto.request.RestaurantRequest;
+import com.unknown.deliveryserver.domain.restaurant.entity.Restaurant;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

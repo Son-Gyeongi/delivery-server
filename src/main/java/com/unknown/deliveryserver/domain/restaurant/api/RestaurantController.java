@@ -1,8 +1,8 @@
-package com.unknown.deliveryserver.restaurant.api;
+package com.unknown.deliveryserver.domain.restaurant.api;
 
-import com.unknown.deliveryserver.restaurant.application.RestaurantService;
-import com.unknown.deliveryserver.restaurant.dto.request.RestaurantRequest;
-import com.unknown.deliveryserver.restaurant.dto.response.RestaurantResponse;
+import com.unknown.deliveryserver.domain.restaurant.application.RestaurantService;
+import com.unknown.deliveryserver.domain.restaurant.dto.request.RestaurantRequest;
+import com.unknown.deliveryserver.domain.restaurant.dto.response.RestaurantResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;

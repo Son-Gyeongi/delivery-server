@@ -1,4 +1,4 @@
-package com.unknown.deliveryserver.restaurant.dto.request;
+package com.unknown.deliveryserver.domain.restaurant.dto.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;

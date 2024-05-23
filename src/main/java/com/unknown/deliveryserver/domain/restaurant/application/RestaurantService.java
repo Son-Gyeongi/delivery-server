@@ -1,7 +1,7 @@
-package com.unknown.deliveryserver.restaurant.application;
+package com.unknown.deliveryserver.domain.restaurant.application;
 
-import com.unknown.deliveryserver.restaurant.dto.request.RestaurantRequest;
-import com.unknown.deliveryserver.restaurant.dto.response.RestaurantResponse;
+import com.unknown.deliveryserver.domain.restaurant.dto.response.RestaurantResponse;
+import com.unknown.deliveryserver.domain.restaurant.dto.request.RestaurantRequest;
 
 public interface RestaurantService {
     // 식당 등록
