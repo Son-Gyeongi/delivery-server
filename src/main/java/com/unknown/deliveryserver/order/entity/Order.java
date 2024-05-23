@@ -1,6 +1,7 @@
 package com.unknown.deliveryserver.order.entity;
 
 import com.unknown.deliveryserver.global.common.entity.BaseEntity;
+import com.unknown.deliveryserver.order.enumerated.OrderStatus;
 import com.unknown.deliveryserver.restaurant.entity.Restaurant;
 import jakarta.persistence.*;
 import lombok.*;

@@ -15,7 +15,7 @@ public class RestaurantServiceImpl implements RestaurantService {
 
     private final RestaurantRepository restaurantRepository;
 
-    // 가게 등록
+    // 식당 등록
     @Override
     @Transactional
     public RestaurantResponse createRestaurant(RestaurantRequest request) {
@@ -31,7 +31,7 @@ public class RestaurantServiceImpl implements RestaurantService {
         return RestaurantResponse.of(savedRestaurant);
     }
 
-    // 가게 조회
+    // 식당 조회
     @Override
     public RestaurantResponse getRestaurant(Long restaurantId) {
         Restaurant foundRestaurant = getFoundRestaurant(restaurantId);
@@ -42,10 +42,10 @@ public class RestaurantServiceImpl implements RestaurantService {
     // Restaurant 조회
     private Restaurant getFoundRestaurant(Long restaurantId) {
         return restaurantRepository.findByIdAndDeletedAtIsNull(restaurantId)
-                .orElseThrow(() -> new IllegalArgumentException("등록되지 않은 가게입니다."));
+                .orElseThrow(() -> new IllegalArgumentException("등록되지 않은 식당입니다."));
     }
 
-    // 가게 수정
+    // 식당 수정
     @Override
     @Transactional
     public RestaurantResponse modifyRestaurant(Long restaurantId, RestaurantRequest request) {
@@ -57,7 +57,7 @@ public class RestaurantServiceImpl implements RestaurantService {
         return RestaurantResponse.of(foundRestaurant);
     }
 
-    // 가게 삭제
+    // 식당 삭제
     @Override
     @Transactional
     public void deleteRestaurant(Long restaurantId) {

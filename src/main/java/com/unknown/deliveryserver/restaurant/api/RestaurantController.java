@@ -3,6 +3,8 @@ package com.unknown.deliveryserver.restaurant.api;
 import com.unknown.deliveryserver.restaurant.application.RestaurantService;
 import com.unknown.deliveryserver.restaurant.dto.request.RestaurantRequest;
 import com.unknown.deliveryserver.restaurant.dto.response.RestaurantResponse;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,11 +14,12 @@ import java.net.URI;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/v1/restaurant")
+@RequestMapping("/v1/restaurants")
+@Tag(name = "v1-restaurants", description = "식당 관련 API")
 public class RestaurantController {
     private final RestaurantService restaurantService;
 
-    // 가게 저장
+    @Operation(summary = "식당 추가")
     @PostMapping
     public ResponseEntity<RestaurantResponse> createRestaurant(@RequestBody RestaurantRequest request) {
         RestaurantResponse savedRestaurant = restaurantService.createRestaurant(request);
@@ -30,7 +33,7 @@ public class RestaurantController {
         return ResponseEntity.created(uri).body(savedRestaurant);
     }
 
-    // 가게 조회
+    @Operation(summary = "식당 조회")
     @GetMapping("{id}")
     public ResponseEntity<RestaurantResponse> getRestaurant(@PathVariable("id") Long restaurantId) {
         RestaurantResponse foundRestaurant = restaurantService.getRestaurant(restaurantId);
@@ -38,7 +41,7 @@ public class RestaurantController {
         return ResponseEntity.ok().body(foundRestaurant);
     }
 
-    // 가게 수정
+    @Operation(summary = "식당 수정")
     @PutMapping("{id}")
     public ResponseEntity<RestaurantResponse> modifyRestaurant(
             @PathVariable("id") Long restaurantId,
@@ -49,7 +52,7 @@ public class RestaurantController {
         return ResponseEntity.ok().body(modifiedRestaurant);
     }
 
-    // 가게 삭제
+    @Operation(summary = "식당 삭제")
     @DeleteMapping("{id}")
     public ResponseEntity<Void> deleteRestaurant(@PathVariable("id") Long restaurantId) {
         restaurantService.deleteRestaurant(restaurantId);
