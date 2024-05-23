@@ -10,6 +10,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
 public class RestaurantResponse {
+    private Long restaurantId;
 
     private String name;
 
@@ -21,6 +22,7 @@ public class RestaurantResponse {
 
     public static RestaurantResponse of(Restaurant restaurant) {
         return RestaurantResponse.builder()
+                .restaurantId(restaurant.getId())
                 .name(restaurant.getName())
                 .telephone(restaurant.getTelephone())
                 .minPrice(restaurant.getMinPrice())

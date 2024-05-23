@@ -1,4 +1,4 @@
-package com.unknown.deliveryserver.restaurant.application.menu;
+package com.unknown.deliveryserver.restaurant.application;
 
 import com.unknown.deliveryserver.restaurant.dao.RestaurantRepository;
 import com.unknown.deliveryserver.restaurant.dto.request.RestaurantRequest;
