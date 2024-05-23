@@ -1,6 +1,7 @@
 package com.unknown.deliveryserver.restaurant.entity;
 
 import com.unknown.deliveryserver.global.common.entity.BaseEntity;
+import com.unknown.deliveryserver.restaurant.dto.request.RestaurantRequest;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import lombok.AccessLevel;
@@ -34,4 +35,11 @@ public class Restaurant extends BaseEntity {
     @Comment("배달 금액")
     @Column(name = "delivery_price", columnDefinition = "DECIMAL(64, 3)")
     private BigDecimal deliveryPrice;
+
+    public void modifyRequest(RestaurantRequest request) {
+        this.name = request.getName();
+        this.telephone = request.getTelephone();
+        this.minPrice = request.getMinPrice();
+        this.deliveryPrice = request.getDeliveryPrice();
+    }
 }
