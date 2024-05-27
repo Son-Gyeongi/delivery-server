@@ -69,7 +69,7 @@ public class MenuServiceImpl implements MenuService {
     public void deleteMenu(Long menuId) {
         Menu foundMenu = getFoundMenu(menuId);
 
-        // TODO 연관된 옵션도 다 삭제 되려나
+        // 연관된 옵션도 다 삭제 되려나 - 삭제 확인
         menuRepository.delete(foundMenu);
     }
 }

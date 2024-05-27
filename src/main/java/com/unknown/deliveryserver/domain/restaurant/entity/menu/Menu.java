@@ -9,6 +9,8 @@ import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.Comment;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -34,10 +36,14 @@ public class Menu extends BaseEntity {
     @Column(name = "price", columnDefinition = "DECIMAL(64, 3)")
     private BigDecimal price;
 
+    @OneToMany(mappedBy = "menu")
+    @Builder.Default
+    private List<MenuOption> menuOptionList = new ArrayList<>();
+
     // 연관 관계 편의 메서드
     public void addRestaurant(Restaurant restaurant) {
         this.restaurant = restaurant;
-        this.restaurant.getMenuList().add(this);
+        this.restaurant.getMenuList().add(this); // this는 Menu 객체를 의미
     }
 
     public void modifyRequest(MenuRequest request) {

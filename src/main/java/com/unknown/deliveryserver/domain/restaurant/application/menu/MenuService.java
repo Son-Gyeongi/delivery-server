@@ -12,7 +12,7 @@ public interface MenuService {
     MenuResponse getMenu(Long menuId);
 
     // Menu 조회
-    public Menu getFoundMenu(Long menuId);
+    Menu getFoundMenu(Long menuId);
 
     // 메뉴 수정
     MenuResponse modifyMenu(Long menuId, MenuRequest request);

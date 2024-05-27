@@ -1,4 +1,4 @@
-package com.unknown.deliveryserver.domain.restaurant.api;
+package com.unknown.deliveryserver.domain.restaurant.api.menu;
 
 import com.unknown.deliveryserver.domain.restaurant.application.menu.MenuService;
 import com.unknown.deliveryserver.domain.restaurant.dto.request.menu.MenuRequest;
@@ -22,7 +22,7 @@ public class MenuController {
 
     @Operation(summary = "메뉴 추가")
     @PostMapping
-    public ResponseEntity<MenuResponse> createRestaurant(
+    public ResponseEntity<MenuResponse> createMenu(
             @PathParam("id") Long restaurantId,
             @RequestBody MenuRequest request) {
         MenuResponse savedMenu = menuService.createMenu(restaurantId, request);
@@ -38,7 +38,7 @@ public class MenuController {
 
     @Operation(summary = "메뉴 조회")
     @GetMapping("{id}")
-    public ResponseEntity<MenuResponse> getRestaurant(@PathVariable("id") Long menuId) {
+    public ResponseEntity<MenuResponse> getMenu(@PathVariable("id") Long menuId) {
         MenuResponse foundMenu = menuService.getMenu(menuId);
 
         return ResponseEntity.ok().body(foundMenu);
@@ -46,7 +46,7 @@ public class MenuController {
 
     @Operation(summary = "메뉴 수정")
     @PutMapping("{id}")
-    public ResponseEntity<MenuResponse> modifyRestaurant(
+    public ResponseEntity<MenuResponse> modifyMenu(
             @PathVariable("id") Long menuId,
             @RequestBody MenuRequest request
     ) {
@@ -57,7 +57,7 @@ public class MenuController {
 
     @Operation(summary = "메뉴 삭제")
     @DeleteMapping("{id}")
-    public ResponseEntity<Void> deleteRestaurant(@PathVariable("id") Long menuId) {
+    public ResponseEntity<Void> deleteMenu(@PathVariable("id") Long menuId) {
         menuService.deleteMenu(menuId);
 
         return ResponseEntity.noContent().build();
