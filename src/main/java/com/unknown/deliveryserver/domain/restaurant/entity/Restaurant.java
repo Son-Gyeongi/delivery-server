@@ -1,17 +1,18 @@
 package com.unknown.deliveryserver.domain.restaurant.entity;
 
-import com.unknown.deliveryserver.global.common.entity.BaseEntity;
 import com.unknown.deliveryserver.domain.restaurant.dto.request.RestaurantRequest;
+import com.unknown.deliveryserver.domain.restaurant.entity.menu.Menu;
+import com.unknown.deliveryserver.global.common.entity.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.OneToMany;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.Comment;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -35,6 +36,10 @@ public class Restaurant extends BaseEntity {
     @Comment("배달 금액")
     @Column(name = "delivery_price", columnDefinition = "DECIMAL(64, 3)")
     private BigDecimal deliveryPrice;
+
+    @OneToMany(mappedBy = "restaurant")
+    @Builder.Default
+    private List<Menu> menuList = new ArrayList<>();
 
     public void modifyRequest(RestaurantRequest request) {
         this.name = request.getName();

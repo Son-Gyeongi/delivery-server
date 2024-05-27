@@ -1,11 +1,9 @@
 package com.unknown.deliveryserver.domain.restaurant.entity.menu;
 
-import com.unknown.deliveryserver.global.common.entity.BaseEntity;
+import com.unknown.deliveryserver.domain.restaurant.dto.request.menu.MenuRequest;
 import com.unknown.deliveryserver.domain.restaurant.entity.Restaurant;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import com.unknown.deliveryserver.global.common.entity.BaseEntity;
+import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.Comment;
@@ -19,8 +17,8 @@ import java.math.BigDecimal;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class Menu extends BaseEntity {
 
-    @ManyToOne // 다대일 단방향 (외래키를 갖는 쪽이 주인 엔티티)
-    @JoinColumn(name = "store_id")
+    @ManyToOne
+    @JoinColumn(name = "store_id", columnDefinition = "BIGINT", foreignKey = @ForeignKey(value = ConstraintMode.NO_CONSTRAINT))
     @ToString.Exclude
     private Restaurant restaurant;
 
@@ -35,4 +33,16 @@ public class Menu extends BaseEntity {
     @Comment("메뉴(음식) 가격")
     @Column(name = "price", columnDefinition = "DECIMAL(64, 3)")
     private BigDecimal price;
+
+    // 연관 관계 편의 메서드
+    public void addRestaurant(Restaurant restaurant) {
+        this.restaurant = restaurant;
+        this.restaurant.getMenuList().add(this);
+    }
+
+    public void modifyRequest(MenuRequest request) {
+        this.isPrimary = request.getIsPrimary();
+        this.foodName = request.getFoodName();
+        this.price = request.getPrice();
+    }
 }

@@ -40,7 +40,8 @@ public class RestaurantServiceImpl implements RestaurantService {
     }
 
     // Restaurant 조회
-    private Restaurant getFoundRestaurant(Long restaurantId) {
+    @Override
+    public Restaurant getFoundRestaurant(Long restaurantId) {
         return restaurantRepository.findByIdAndDeletedAtIsNull(restaurantId)
                 .orElseThrow(() -> new IllegalArgumentException("등록되지 않은 식당입니다."));
     }
@@ -51,7 +52,7 @@ public class RestaurantServiceImpl implements RestaurantService {
     public RestaurantResponse modifyRestaurant(Long restaurantId, RestaurantRequest request) {
         Restaurant foundRestaurant = getFoundRestaurant(restaurantId);
 
-        // TODO @Transactional 있으니깐 더티체킹으로 저장되는지 확인하기
+        // @Transactional 있으니깐 더티체킹으로 저장되는지 확인하기 - 저장 확인함
         foundRestaurant.modifyRequest(request);
 
         return RestaurantResponse.of(foundRestaurant);
@@ -63,7 +64,7 @@ public class RestaurantServiceImpl implements RestaurantService {
     public void deleteRestaurant(Long restaurantId) {
         Restaurant foundRestaurant = getFoundRestaurant(restaurantId);
 
-        // TODO 연관된 메뉴도 다 삭제 되려나
+        // 연관된 메뉴도 다 삭제 되려나 - 같이 삭제되는 거 확인
         restaurantRepository.delete(foundRestaurant);
     }
 }
