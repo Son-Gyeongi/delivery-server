@@ -30,7 +30,7 @@ public class MenuOptionController {
         URI uri = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
-                .buildAndExpand(savedMenuOption.getMenuId())
+                .buildAndExpand(savedMenuOption.getMenuOptionId())
                 .toUri();
 
         return ResponseEntity.created(uri).body(savedMenuOption);

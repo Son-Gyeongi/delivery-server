@@ -1,10 +1,8 @@
 package com.unknown.deliveryserver.domain.restaurant.entity.menu;
 
+import com.unknown.deliveryserver.domain.restaurant.dto.request.menu.MenuOptionDetailRequest;
 import com.unknown.deliveryserver.global.common.entity.BaseEntity;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.Comment;
@@ -18,8 +16,8 @@ import java.math.BigDecimal;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class MenuOptionDetail extends BaseEntity {
 
-    @ManyToOne // 다대일 단방향 (외래키를 갖는 쪽이 주인 엔티티)
-    @JoinColumn(name = "menu_option_id")
+    @ManyToOne
+    @JoinColumn(name = "menu_option_id", columnDefinition = "BIGINT", foreignKey = @ForeignKey(value = ConstraintMode.NO_CONSTRAINT))
     @ToString.Exclude
     private MenuOption menuOption;
 
@@ -30,4 +28,15 @@ public class MenuOptionDetail extends BaseEntity {
     @Comment("메뉴(음식) 옵션 세부 내역 추가 금액")
     @Column(name = "additional_price", columnDefinition = "DECIMAL(64, 3)")
     private BigDecimal additionalPrice;
+
+    // 연관 관계 편의 메서드
+    public void addMenuOption(MenuOption menuOption) {
+        this.menuOption = menuOption;
+        this.menuOption.getMenuOptionDetailList().add(this); // this는 MenuOptionDetail 객체를 의미
+    }
+
+    public void modifyRequest(MenuOptionDetailRequest request) {
+        this.optionDetailName = request.getOptionDetailName();
+        this.additionalPrice = request.getAdditionalPrice();
+    }
 }

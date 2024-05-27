@@ -11,14 +11,14 @@ import lombok.*;
 @Schema(description = "메뉴 옵션 정보 반환")
 public class MenuOptionResponse {
     @Schema(description = "메뉴 고유 번호")
-    private Long menuId;
+    private Long menuOptionId;
 
     @Schema(description = "메뉴 옵션 이름")
     private String optionName;
 
     public static MenuOptionResponse of(MenuOption menuOption) {
         return MenuOptionResponse.builder()
-                .menuId(menuOption.getId())
+                .menuOptionId(menuOption.getId())
                 .optionName(menuOption.getOptionName())
                 .build();
     }
