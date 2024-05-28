@@ -1,10 +1,7 @@
 package com.unknown.deliveryserver.domain.order.entity;
 
 import com.unknown.deliveryserver.global.common.entity.BaseEntity;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.Comment;
@@ -16,12 +13,18 @@ import org.hibernate.annotations.Comment;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class OrderItemOptions extends BaseEntity {
 
-    @ManyToOne // 다대일 단방향 (외래키를 갖는 쪽이 주인 엔티티)
-    @JoinColumn(name = "order_item_id")
+    @ManyToOne
+    @JoinColumn(name = "order_item_id", columnDefinition = "BIGINT", foreignKey = @ForeignKey(value = ConstraintMode.NO_CONSTRAINT))
     @ToString.Exclude
-    private OrderItems orderItems;
+    private OrderItems orderItem;
 
     @Comment("주문한 음식에 선택한 옵션 이름")
     @Column(name = "food_option_name", columnDefinition = "VARCHAR(200)")
     private String foodOptionName;
+
+    // 연관 관계 편의 메서드
+    public void addOrderItem(OrderItems orderItem) {
+        this.orderItem = orderItem;
+        this.orderItem.getOrderItemOptionsList().add(this); // this는 OrderItemOptions 객체를 의미
+    }
 }

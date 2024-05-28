@@ -1,13 +1,13 @@
 package com.unknown.deliveryserver.domain.order.entity;
 
 import com.unknown.deliveryserver.global.common.entity.BaseEntity;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.Comment;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -16,8 +16,8 @@ import org.hibernate.annotations.Comment;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class OrderItems extends BaseEntity {
 
-    @ManyToOne // 다대일 단방향 (외래키를 갖는 쪽이 주인 엔티티)
-    @JoinColumn(name = "order_id")
+    @ManyToOne
+    @JoinColumn(name = "order_id", columnDefinition = "BIGINT", foreignKey = @ForeignKey(value = ConstraintMode.NO_CONSTRAINT))
     @ToString.Exclude
     private Order order;
 
@@ -28,4 +28,14 @@ public class OrderItems extends BaseEntity {
     @Comment("주문한 음식 수량")
     @Column(name = "quantity", columnDefinition = "BIGINT")
     private Long quantity;
+
+    @OneToMany(mappedBy = "orderItem")
+    @Builder.Default
+    private List<OrderItemOptions> orderItemOptionsList = new ArrayList<>();
+
+    // 연관 관계 편의 메서드
+    public void addOrder(Order order) {
+        this.order = order;
+        this.order.getOrderItemsList().add(this); // this는 OrderItems 객체를 의미
+    }
 }

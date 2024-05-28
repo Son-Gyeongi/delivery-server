@@ -1,5 +1,6 @@
 package com.unknown.deliveryserver.domain.restaurant.entity;
 
+import com.unknown.deliveryserver.domain.order.entity.Order;
 import com.unknown.deliveryserver.domain.restaurant.dto.request.RestaurantRequest;
 import com.unknown.deliveryserver.domain.restaurant.entity.menu.Menu;
 import com.unknown.deliveryserver.global.common.entity.BaseEntity;
@@ -40,6 +41,10 @@ public class Restaurant extends BaseEntity {
     @OneToMany(mappedBy = "restaurant")
     @Builder.Default
     private List<Menu> menuList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "restaurant")
+    @Builder.Default
+    private List<Order> orderList = new ArrayList<>();
 
     public void modifyRequest(RestaurantRequest request) {
         this.name = request.getName();

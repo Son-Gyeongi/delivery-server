@@ -1,14 +1,16 @@
 package com.unknown.deliveryserver.domain.order.entity;
 
 import com.unknown.deliveryserver.domain.order.enumerated.OrderStatus;
-import com.unknown.deliveryserver.global.common.entity.BaseEntity;
 import com.unknown.deliveryserver.domain.restaurant.entity.Restaurant;
+import com.unknown.deliveryserver.global.common.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.Comment;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -18,8 +20,8 @@ import java.math.BigDecimal;
 @Table(name = "orders")
 public class Order extends BaseEntity {
 
-    @ManyToOne // 다대일 단방향 (외래키를 갖는 쪽이 주인 엔티티)
-    @JoinColumn(name = "store_id")
+    @ManyToOne
+    @JoinColumn(name = "restaurant_id", columnDefinition = "BIGINT", foreignKey = @ForeignKey(value = ConstraintMode.NO_CONSTRAINT))
     @ToString.Exclude
     private Restaurant restaurant;
 
@@ -56,4 +58,14 @@ public class Order extends BaseEntity {
     @Comment("주문 총 금액(배달 금액 포함)")
     @Column(name = "total_price", columnDefinition = "DECIMAL(64, 3)")
     private BigDecimal totalPrice;
+
+    @OneToMany(mappedBy = "order")
+    @Builder.Default
+    private List<OrderItems> orderItemsList = new ArrayList<>();
+
+    // 연관 관계 편의 메서드
+    public void addRestaurant(Restaurant restaurant) {
+        this.restaurant = restaurant;
+        this.restaurant.getOrderList().add(this); // this는 Order 객체를 의미
+    }
 }
