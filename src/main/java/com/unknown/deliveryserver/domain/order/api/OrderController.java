@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -35,11 +36,19 @@ public class OrderController {
         return ResponseEntity.created(uri).body(savedOrder);
     }
 
-    @Operation(summary = "주문 조회")
+    @Operation(summary = "주문 단건 조회")
     @GetMapping("{id}")
     public ResponseEntity<OrderResponse> getOrder(@PathVariable("id") Long orderId) {
         OrderResponse foundOrder = orderService.getOrder(orderId);
 
         return ResponseEntity.ok().body(foundOrder);
+    }
+
+    @Operation(summary = "주문 여러건 조회")
+    @GetMapping("/restaurant/{id}")
+    public ResponseEntity<List<OrderResponse>> getOrderList(@PathVariable("id") Long restaurantId) {
+        List<OrderResponse> orderList = orderService.getOrderList(restaurantId);
+
+        return ResponseEntity.ok().body(orderList);
     }
 }

@@ -153,7 +153,7 @@ public class OrderServiceImpl implements OrderService {
         return OrderItemOptionsResponse.of(savedOrderItemsOption);
     }
 
-    // 주문 조회
+    // 주문 단건 조회
     @Override
     public OrderResponse getOrder(Long orderId) {
         Order foundOrder = getFoundOrder(orderId);
@@ -191,6 +191,22 @@ public class OrderServiceImpl implements OrderService {
                                                                     .toList()))
                 .toList();
         */
+    }
+
+    // 주문 여러건 조회
+    @Override
+    public List<OrderResponse> getOrderList(Long restaurantId) {
+        Restaurant foundRestaurant = restaurantService.getFoundRestaurant(restaurantId);
+        List<Order> orderList = orderRepository.findByRestaurant(foundRestaurant);
+
+        // 주문 건이 없는 경우 빈 리스트 반환
+//        if (orderList.isEmpty()) return Collections.emptyList();
+        // 또는 주문 건이 없는 경우 예외 던지기
+        if (orderList.isEmpty()) {
+            throw new IllegalArgumentException("해당 레스토랑에 대한 주문이 없습니다.");
+        }
+
+        return orderList.stream().map(order -> getOrder(order.getId())).toList();
     }
 
     // Order 조회 (취소된 주문 제외)
