@@ -14,11 +14,16 @@ import com.unknown.deliveryserver.domain.order.entity.OrderItemOptions;
 import com.unknown.deliveryserver.domain.order.entity.OrderItems;
 import com.unknown.deliveryserver.domain.order.enumerated.OrderStatus;
 import com.unknown.deliveryserver.domain.restaurant.application.RestaurantService;
+import com.unknown.deliveryserver.domain.restaurant.dao.menu.MenuOptionDetailRepository;
+import com.unknown.deliveryserver.domain.restaurant.dao.menu.MenuRepository;
 import com.unknown.deliveryserver.domain.restaurant.entity.Restaurant;
+import com.unknown.deliveryserver.domain.restaurant.entity.menu.Menu;
+import com.unknown.deliveryserver.domain.restaurant.entity.menu.MenuOptionDetail;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -30,14 +35,37 @@ public class OrderServiceImpl implements OrderService {
     private final OrderItemOptionsRepository orderItemOptionsRepository;
     private final RestaurantService restaurantService;
 
+    private final MenuRepository menuRepository;
+    private final MenuOptionDetailRepository menuOptionDetailRepository;
+
     // 주문 하기
     @Override
     @Transactional
     public OrderResponse createOrder(Long restaurantId, OrderRequest request) {
         // 가게 조회
         Restaurant foundRestaurant = restaurantService.getFoundRestaurant(restaurantId);
-        
-        // TODO 주문 메뉴 금액, 주문 메뉴 총 금액(배달비 포함) 검사하기
+
+        // 요청한 price 값을 소수점 3자리로 설정 - 비교하기 위해서
+        BigDecimal requestPrice = request.getPrice().setScale(3);
+        BigDecimal requestTotalPrice = request.getTotalPrice().setScale(3);
+
+        // 주문 메뉴 금액, 주문 메뉴 총 금액(배달비 포함) 검사하기
+        // 검사 할 것 주문한 메뉴들, 주문한 메뉴 옵션들의 금액이랑 request에서 온 price, totalPrice 같은 지 확인하기
+        BigDecimal orderMenuPrice = getTotalMenuPrice(request);
+        BigDecimal orderMenuTotalPrice = orderMenuPrice.add(foundRestaurant.getDeliveryPrice()); // 배송비 포함
+
+        System.out.println("orderMenuPrice = " + orderMenuPrice);
+        System.out.println("orderMenuTotalPrice = " + orderMenuTotalPrice);
+
+        // Validator 유틸 만들기
+        // orderMenuPrice랑 최소금액이랑도 비교하기
+        if (!orderMenuPrice.equals(requestPrice)) {
+            throw new IllegalArgumentException("다시 주문 확인 부탁드립니다. 주문하신 가격이 잘못 되었습니다.");
+        }
+
+        if (!(orderMenuTotalPrice).equals(requestTotalPrice)) {
+            throw new IllegalArgumentException("다시 주문 확인 부탁드립니다. (배달비 포함) 주문하신 가격이 잘못 되었습니다.");
+        }
 
         // Order 객체 만들기
         Order order = Order.builder()
@@ -47,8 +75,8 @@ public class OrderServiceImpl implements OrderService {
                 .phone(request.getPhone())
                 .recipient(request.getRecipient())
                 .description(request.getDescription())
-                .price(request.getPrice()) // 주문 메뉴 금액
-                .totalPrice(request.getTotalPrice()) // 주문 메뉴 총 금액(배달비 포함)
+                .price(orderMenuPrice) // 주문 메뉴 금액
+                .totalPrice(orderMenuPrice.add(foundRestaurant.getDeliveryPrice())) // 주문 메뉴 총 금액(배달비 포함)
                 .build();
         order.addRestaurant(foundRestaurant);
 
@@ -61,6 +89,35 @@ public class OrderServiceImpl implements OrderService {
                 .toList();
 
         return OrderResponse.of(savedOrder, orderItemsResponseList);
+    }
+
+    // 주문한 메뉴들 총금액
+    private BigDecimal getTotalMenuPrice(OrderRequest request) {
+        return request.getOrderItemsRequestList().stream()
+                .map(orderItemsRequest -> {
+                    Menu foundMenu = menuRepository.findByFoodName(orderItemsRequest.getFoodName())
+                            .orElseThrow(() -> new IllegalArgumentException("등록된 메뉴가 아닙니다."));
+                    BigDecimal menuPrice = foundMenu.getPrice();
+
+                    // 주문한 메뉴 옵션들의 총금액
+                    BigDecimal orderMenuOptionPrice = getTotalAdditionalPrice(orderItemsRequest);
+
+                    return (menuPrice.add(orderMenuOptionPrice))
+                            .multiply(BigDecimal.valueOf(orderItemsRequest.getQuantity()));
+                })
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+
+    // 주문한 메뉴 옵션들의 총금액
+    private BigDecimal getTotalAdditionalPrice(OrderItemsRequest orderItemsRequest) {
+        return orderItemsRequest.getOrderItemOptionsRequestList().stream()
+                .map(orderItemsOption -> {
+                    MenuOptionDetail foundMenuOptionDetail = menuOptionDetailRepository.findByOptionDetailName(orderItemsOption.getFoodOptionName())
+                            .orElseThrow(() -> new IllegalArgumentException("등록된 메뉴의 옵션이 아닙니다."));
+
+                    return foundMenuOptionDetail.getAdditionalPrice();
+                })
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
     // OrderItems 저장 (메뉴 이름)

@@ -16,7 +16,7 @@ public class MenuResponse {
     private Long menuId;
 
     @Schema(description = "대표 메뉴")
-    private String isPrimary;
+    private Boolean isPrimary;
 
     @Schema(description = "메뉴 이름")
     private String foodName;

@@ -26,7 +26,7 @@ public class Menu extends BaseEntity {
 
     @Comment("대표메뉴 여부")
     @Column(name = "is_primary", columnDefinition = "BOOLEAN")
-    private String isPrimary;
+    private Boolean isPrimary;
 
     @Comment("메뉴(음식) 이름")
     @Column(name = "food_name", columnDefinition = "VARCHAR(200)")

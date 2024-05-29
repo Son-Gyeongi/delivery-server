@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 @Schema(description = "메뉴 저장 또는 수정 시 요청")
 public class MenuRequest {
     @Schema(description = "대표 메뉴")
-    private String isPrimary;
+    private Boolean isPrimary;
 
     @Schema(description = "메뉴 이름")
     private String foodName;
