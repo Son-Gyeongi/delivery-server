@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: delivery-server
+  profiles:
+    active: secret
+  datasource: ## 데이터베이스 연동
+    url: jdbc:mysql://localhost:3307/delivery_server_local
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: ON_SECRET
+    password: ON_SECRET
+  jpa: ## 하이버네이트를 사용할 때 활성화 선택사항
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
