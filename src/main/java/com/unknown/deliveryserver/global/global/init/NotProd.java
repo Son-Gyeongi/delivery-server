@@ -1,14 +1,14 @@
 package com.unknown.deliveryserver.global.global.init;
 
 import com.unknown.deliveryserver.domain.order.dao.OrderRepository;
-import com.unknown.deliveryserver.domain.restaurant.dao.RestaurantRepository;
-import com.unknown.deliveryserver.domain.restaurant.dao.menu.MenuOptionDetailRepository;
-import com.unknown.deliveryserver.domain.restaurant.dao.menu.MenuOptionRepository;
-import com.unknown.deliveryserver.domain.restaurant.dao.menu.MenuRepository;
-import com.unknown.deliveryserver.domain.restaurant.entity.Restaurant;
-import com.unknown.deliveryserver.domain.restaurant.entity.menu.Menu;
-import com.unknown.deliveryserver.domain.restaurant.entity.menu.MenuOption;
-import com.unknown.deliveryserver.domain.restaurant.entity.menu.MenuOptionDetail;
+import com.unknown.deliveryserver.domain.restaurant.restaurant.dao.RestaurantRepository;
+import com.unknown.deliveryserver.domain.restaurant.menu.dao.MenuOptionDetailRepository;
+import com.unknown.deliveryserver.domain.restaurant.menu.dao.MenuOptionRepository;
+import com.unknown.deliveryserver.domain.restaurant.menu.dao.MenuRepository;
+import com.unknown.deliveryserver.domain.restaurant.restaurant.entity.Restaurant;
+import com.unknown.deliveryserver.domain.restaurant.menu.entity.Menu;
+import com.unknown.deliveryserver.domain.restaurant.menu.entity.MenuOption;
+import com.unknown.deliveryserver.domain.restaurant.menu.entity.MenuOptionDetail;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

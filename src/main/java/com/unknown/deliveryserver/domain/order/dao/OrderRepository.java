@@ -1,7 +1,7 @@
 package com.unknown.deliveryserver.domain.order.dao;
 
 import com.unknown.deliveryserver.domain.order.entity.Order;
-import com.unknown.deliveryserver.domain.restaurant.entity.Restaurant;
+import com.unknown.deliveryserver.domain.restaurant.restaurant.entity.Restaurant;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
