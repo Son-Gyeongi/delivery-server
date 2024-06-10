@@ -82,6 +82,8 @@ public class OrderServiceImpl implements OrderService {
 
         Order savedOrder = orderRepository.save(order);
 
+        savedOrder.genOrderNo();
+
         // OrderItems 객체 만들고 저장
         List<OrderItemsResponse> orderItemsResponseList = request.getOrderItemsRequestList()
                 .stream()
@@ -204,6 +206,7 @@ public class OrderServiceImpl implements OrderService {
         // 또는 주문 건이 없는 경우 예외 던지기
         if (orderList.isEmpty()) {
             throw new IllegalArgumentException("해당 레스토랑에 대한 주문이 없습니다.");
+            // TODO 커스텀 예외 만들기
         }
 
         return orderList.stream().map(order -> getOrder(order.getId())).toList();

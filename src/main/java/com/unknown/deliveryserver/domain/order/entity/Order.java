@@ -1,6 +1,7 @@
 package com.unknown.deliveryserver.domain.order.entity;
 
 import com.unknown.deliveryserver.domain.order.enumerated.OrderStatus;
+import com.unknown.deliveryserver.domain.order.util.OrderUtil;
 import com.unknown.deliveryserver.domain.restaurant.restaurant.entity.Restaurant;
 import com.unknown.deliveryserver.global.common.entity.BaseEntity;
 import jakarta.persistence.*;
@@ -24,6 +25,10 @@ public class Order extends BaseEntity {
     @JoinColumn(name = "restaurant_id", columnDefinition = "BIGINT", foreignKey = @ForeignKey(value = ConstraintMode.NO_CONSTRAINT))
     @ToString.Exclude
     private Restaurant restaurant;
+
+    @Comment("주문 번호")
+    @Column(name = "order_no", columnDefinition = "VARCHAR(200)")
+    private String orderNo;
 
     @Comment("주문 상태 정보") // 주문 완료, 준비중, 주문 취소, 배송 완료
     @Column(name = "status", columnDefinition = "VARCHAR(20)")
@@ -59,6 +64,7 @@ public class Order extends BaseEntity {
     @Column(name = "total_price", columnDefinition = "DECIMAL(64, 3)")
     private BigDecimal totalPrice;
 
+    // TODO @OneToMany 가 있으면 양방향으로 나와서 없애는 방법 찾아보기
     @OneToMany(mappedBy = "order")
     @Builder.Default
     private List<OrderItems> orderItemsList = new ArrayList<>();
@@ -67,5 +73,21 @@ public class Order extends BaseEntity {
     public void addRestaurant(Restaurant restaurant) {
         this.restaurant = restaurant;
         this.restaurant.getOrderList().add(this); // this는 Order 객체를 의미
+    }
+
+    public void genOrderNo() {
+        // orderNo를 주문 접수할 때 만든다.
+        StringBuilder orderNo = new StringBuilder();
+
+        String date = OrderUtil.date.getDate();
+        String time = OrderUtil.date.getTime();
+        String timeMillis = OrderUtil.date.getTimeMillis(getCreatedAt());
+
+        orderNo.append(date).append("-");
+        orderNo.append(time).append("-");
+        orderNo.append(timeMillis).append("-");
+        orderNo.append(this.getId());
+
+        this.orderNo = orderNo.toString();
     }
 }

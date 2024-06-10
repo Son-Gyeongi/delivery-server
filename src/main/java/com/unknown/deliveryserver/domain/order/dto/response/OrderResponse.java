@@ -13,8 +13,11 @@ import java.util.List;
 @Builder
 @Schema(description = "주문 정보 반환")
 public class OrderResponse {
-    @Schema(description = "주문 고유 번호")
+    @Schema(description = "주문 테이블 고유 번호")
     private Long orderId;
+
+    @Schema(description = "주문 번호")
+    private String orderNo;
 
     @Schema(description = "배달 도착 주소")
     private String address;
@@ -43,6 +46,7 @@ public class OrderResponse {
     public static OrderResponse of(
             Order order, List<OrderItemsResponse> orderItemsResponseList) {
         return OrderResponse.builder()
+                .orderNo(order.getOrderNo())
                 .orderId(order.getId())
                 .address(order.getAddress())
                 .addressDetail(order.getAddressDetail())
