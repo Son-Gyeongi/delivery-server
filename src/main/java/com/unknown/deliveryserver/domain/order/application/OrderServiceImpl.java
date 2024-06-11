@@ -199,7 +199,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<OrderResponse> getOrderList(Long restaurantId) {
         Restaurant foundRestaurant = restaurantService.getFoundRestaurant(restaurantId);
-        List<Order> orderList = orderRepository.findByRestaurant(foundRestaurant);
+        List<Order> orderList = orderRepository.findAllByRestaurant(foundRestaurant);
 
         // 주문 건이 없는 경우 빈 리스트 반환
 //        if (orderList.isEmpty()) return Collections.emptyList();
