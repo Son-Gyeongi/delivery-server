@@ -10,8 +10,8 @@ import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.Comment;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -67,7 +67,8 @@ public class Order extends BaseEntity {
     // TODO @OneToMany 가 있으면 양방향으로 나와서 없애는 방법 찾아보기
     @OneToMany(mappedBy = "order")
     @Builder.Default
-    private List<OrderItems> orderItemsList = new ArrayList<>();
+    private Set<OrderItems> orderItemsList = new HashSet<>();
+//    private List<OrderItems> orderItemsList = new ArrayList<>();
 
     // 연관 관계 편의 메서드
     public void addRestaurant(Restaurant restaurant) {

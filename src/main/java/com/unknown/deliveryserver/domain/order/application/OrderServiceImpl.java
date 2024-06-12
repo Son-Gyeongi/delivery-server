@@ -13,12 +13,12 @@ import com.unknown.deliveryserver.domain.order.entity.Order;
 import com.unknown.deliveryserver.domain.order.entity.OrderItemOptions;
 import com.unknown.deliveryserver.domain.order.entity.OrderItems;
 import com.unknown.deliveryserver.domain.order.enumerated.OrderStatus;
-import com.unknown.deliveryserver.domain.restaurant.restaurant.application.RestaurantService;
 import com.unknown.deliveryserver.domain.restaurant.menu.dao.MenuOptionDetailRepository;
 import com.unknown.deliveryserver.domain.restaurant.menu.dao.MenuRepository;
-import com.unknown.deliveryserver.domain.restaurant.restaurant.entity.Restaurant;
 import com.unknown.deliveryserver.domain.restaurant.menu.entity.Menu;
 import com.unknown.deliveryserver.domain.restaurant.menu.entity.MenuOptionDetail;
+import com.unknown.deliveryserver.domain.restaurant.restaurant.application.RestaurantService;
+import com.unknown.deliveryserver.domain.restaurant.restaurant.entity.Restaurant;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -199,7 +199,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<OrderResponse> getOrderList(Long restaurantId) {
         Restaurant foundRestaurant = restaurantService.getFoundRestaurant(restaurantId);
-        List<Order> orderList = orderRepository.findAllByRestaurant(foundRestaurant);
+        List<OrderResponse> orderList = orderRepository.findAllByRestaurant(foundRestaurant);
 
         // 주문 건이 없는 경우 빈 리스트 반환
 //        if (orderList.isEmpty()) return Collections.emptyList();
@@ -209,7 +209,7 @@ public class OrderServiceImpl implements OrderService {
             // TODO 커스텀 예외 만들기
         }
 
-        return orderList.stream().map(order -> getOrder(order.getId())).toList();
+        return orderList;
     }
 
     // Order 조회 (취소된 주문 제외)

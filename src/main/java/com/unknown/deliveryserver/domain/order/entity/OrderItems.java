@@ -6,8 +6,8 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.Comment;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -31,7 +31,8 @@ public class OrderItems extends BaseEntity {
 
     @OneToMany(mappedBy = "orderItem")
     @Builder.Default
-    private List<OrderItemOptions> orderItemOptionsList = new ArrayList<>();
+    private Set<OrderItemOptions> orderItemOptionsList = new HashSet<>();
+//    private List<OrderItemOptions> orderItemOptionsList = new ArrayList<>();
 
     // 연관 관계 편의 메서드
     public void addOrder(Order order) {
